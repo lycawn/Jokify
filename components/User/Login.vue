@@ -34,9 +34,9 @@ const handleUserIdSubmit = () => {
   >
     <div class="text-center mb-8">
       <div
-        class="w-20 h-20 bg-gradient-to-r from-red-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+        class="w-20 h-20 bg-gradient-to-l from-black-500 to-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
       >
-        <span class="text-3xl">😂</span>
+        <span class="text-3xl">🎭</span>
       </div>
       <h1 class="text-4xl font-bold text-white mb-2">Jokify</h1>
       <p class="text-white/70">Your daily dose of laughter</p>

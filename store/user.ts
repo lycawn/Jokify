@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { Jokes } from "~/types/jokes";
 import type { User } from "~/types/user";
 
 export const useUserStore = defineStore("useUserStore", {
@@ -7,6 +8,7 @@ export const useUserStore = defineStore("useUserStore", {
       user: {} as User,
       userId: "",
       isLoggedIn: false,
+      myFavourites: {} as Jokes,
     };
   },
   actions: {

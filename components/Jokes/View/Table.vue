@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { truncText } from "~/composables/utils/usables";
 import { useJokeStore } from "~/store/jokes";
 import { useUserStore } from "~/store/user";
 import type { Jokes } from "~/types/jokes";
@@ -10,7 +11,6 @@ const userStore = useUserStore();
 const jokeStore = useJokeStore();
 const currentJoke = ref<Jokes>(jokeStore.randomJoke);
 const userInfo = ref<User>(userStore.user);
-const router = useRouter();
 
 const getRandomJoke = async () => {
   loading.value = true;
@@ -36,16 +36,35 @@ const getRandomJoke = async () => {
   }
 };
 
-const toggleFavorite = () => {
+const toggleFavoriteWithRating = (rating = null) => {
   if (!currentJoke.value) return;
 
   const jokeId = currentJoke.value.id;
   const favorites = userInfo.value.favoriteJokes;
 
-  if (favorites.includes(jokeId)) {
-    userInfo.value.favoriteJokes = favorites.filter((id) => id !== jokeId);
+  const existingFavoriteIndex = favorites.findIndex(
+    (joke) => joke.id === jokeId
+  );
+
+  if (existingFavoriteIndex !== -1) {
+    if (rating !== null) {
+      userInfo.value.favoriteJokes[existingFavoriteIndex] = {
+        ...userInfo.value.favoriteJokes[existingFavoriteIndex],
+        rating: rating,
+        lastUpdated: new Date().toISOString(),
+      };
+    } else {
+      userInfo.value.favoriteJokes = favorites.filter(
+        (joke) => joke.id !== jokeId
+      );
+    }
   } else {
-    userInfo.value.favoriteJokes = [...favorites, jokeId];
+    const favoriteJoke = {
+      ...currentJoke.value,
+      rating: rating || null,
+      dateAdded: new Date().toISOString(),
+    };
+    userInfo.value.favoriteJokes = [...favorites, favoriteJoke];
   }
 
   localStorage.setItem("userInfo", JSON.stringify(userInfo.value));
@@ -55,16 +74,24 @@ const toggleFavorite = () => {
 const isJokeFavorited = computed(() => {
   return (
     currentJoke.value &&
-    userInfo.value.favoriteJokes.includes(currentJoke.value.id)
+    userInfo.value.favoriteJokes.some(
+      (joke) => joke.id === currentJoke.value.id
+    )
   );
 });
 
-const favouriteRouting = async (id) => {
-  router.push(`/joke/${id}`);
-};
-
 const revealJoke = () => {
   isRevealed.value = true;
+};
+
+const getCurrentRating = () => {
+  if (!currentJoke.value || !isJokeFavorited.value) return 0;
+
+  const favoriteJoke = userInfo.value.favoriteJokes.find(
+    (joke) => joke.id === currentJoke.value.id
+  );
+
+  return favoriteJoke?.rating || 0;
 };
 </script>
 
@@ -115,8 +142,10 @@ const revealJoke = () => {
 
             <button
               v-if="
-                (jokeStore.randomJoke.setup && !isRevealed) ||
-                jokeStore.randomJoke[0]
+                currentJoke &&
+                (currentJoke.setup || currentJoke.joke) &&
+                (currentJoke.punchline || currentJoke.delivery) &&
+                !isRevealed
               "
               @click="revealJoke"
               class="flex-1 group relative overflow-hidden bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white font-bold py-5 px-8 rounded-3xl hover:shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-105 transition-all duration-500"
@@ -151,49 +180,71 @@ const revealJoke = () => {
                 </span>
               </div>
 
-              <button
-                v-if="jokeStore.randomJoke.punchline || jokeStore.randomJoke[0]"
-                @click="toggleFavorite"
-                class="group p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110"
-                :title="
-                  isJokeFavorited ? 'Remove from favorites' : 'Add to favorites'
-                "
-              >
-                <span v-if="isJokeFavorited" class="text-3xl animate-pulse"
-                  >❤️</span
+              <div class="flex gap-2">
+                <button
+                  v-for="rating in [1, 2, 3, 4, 5]"
+                  :key="rating"
+                  @click="toggleFavoriteWithRating(rating)"
+                  class="group p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                  :title="`Rate ${rating} stars`"
                 >
-                <span
-                  v-else
-                  class="text-3xl opacity-60 group-hover:opacity-100 transition-opacity"
-                  >🤍</span
+                  <span v-if="isJokeFavorited" class="text-2xl animate-pulse">
+                    {{ rating <= getCurrentRating() ? "❤️" : "☆" }}
+                  </span>
+                  <span
+                    v-else
+                    class="text-2xl opacity-60 group-hover:opacity-100 transition-opacity"
+                  >
+                    ❤️
+                  </span>
+                </button>
+
+                <button
+                  v-if="isJokeFavorited"
+                  @click="toggleFavoriteWithRating(null)"
+                  class="group p-3 rounded-full bg-red-500/20 hover:bg-red-500/30 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                  title="Remove from favorites"
                 >
-              </button>
+                  <span class="text-2xl">🗑️</span>
+                </button>
+              </div>
             </div>
 
             <div class="mb-8">
               <div
                 class="text-white text-2xl font-semibold leading-relaxed p-6 bg-gradient-to-r from-white/5 to-white/10 rounded-2xl border border-white/10"
               >
-                "{{ currentJoke.setup }}"
+                "{{ currentJoke.setup || currentJoke.joke }}"
               </div>
             </div>
 
             <div
-              v-if="isRevealed"
-              class="transform transition-all duration-700 ease-out"
+              v-if="
+                isRevealed && (currentJoke.punchline || currentJoke.delivery)
+              "
+              class="reveal-punchline"
             >
-              <div
-                class="bg-gradient-to-r from-yellow-400/20 via-orange-400/20 to-red-400/20 text-yellow-100 text-2xl font-bold p-8 rounded-3xl border border-yellow-400/30 backdrop-blur-sm shadow-xl"
-              >
-                <div class="flex items-center gap-4">
-                  <span class="text-4xl">💫</span>
-                  <span>{{ currentJoke.punchline }}</span>
-                  <span class="text-4xl">😄</span>
+              <div class="punchline-container">
+                <div class="punchline-content">
+                  <span class="emoji-left">💫</span>
+                  <span class="punchline-text">{{
+                    currentJoke.punchline || currentJoke.delivery
+                  }}</span>
+                  <span class="emoji-right">😄</span>
+                </div>
+                <div class="sparkle-effect">
+                  <div class="sparkle"></div>
+                  <div class="sparkle"></div>
+                  <div class="sparkle"></div>
+                  <div class="sparkle"></div>
                 </div>
               </div>
             </div>
 
-            <div v-else class="text-center py-12">
+            <div
+              v-else-if="currentJoke.punchline || currentJoke.delivery"
+              class="text-center py-12"
+            >
               <div class="text-6xl mb-4 opacity-30">🤔</div>
               <p class="text-white/50 text-lg italic">
                 Click "Reveal Punchline" for the big laugh...
@@ -223,7 +274,7 @@ const revealJoke = () => {
               class="block text-lg font-semibold text-white mb-4 flex items-center gap-2"
             >
               <span class="text-2xl">🎯</span>
-              Choose Your Style
+              Choose Category
             </label>
             <select
               id="joke-type"
@@ -237,7 +288,7 @@ const revealJoke = () => {
                 :value="type"
                 class="text-gray-800"
               >
-                {{ type.charAt(0).toUpperCase() + type.slice(1) }}
+                {{ type.charAt(0).toUpperCase() + type.slice(1) }} Jokes
               </option>
             </select>
           </div>
@@ -258,14 +309,15 @@ const revealJoke = () => {
               </span>
             </h3>
             <div class="grid grid-cols-2 gap-3 mb-4">
-              <div
-                v-for="id in userStore.user.favoriteJokes?.slice(-8)"
-                :key="id"
-                @click="favouriteRouting(id)"
+              <NuxtLink
+                v-for="joke in userStore.user.favoriteJokes.slice(0, 8)"
+                :key="joke.id"
+                :to="`/joke/${joke.id}`"
                 class="bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-white text-center py-3 px-3 rounded-xl text-sm font-semibold border border-white/20 hover:scale-105 transition-transform cursor-pointer"
               >
-                #{{ id }}
-              </div>
+                {{ truncText(joke.setup || joke.joke) }}
+                <span class="text-xs" v-for="rating in joke.rating">⭐</span>
+              </NuxtLink>
             </div>
             <p
               v-if="userStore.user.favoriteJokes?.length > 8"

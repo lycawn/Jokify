@@ -1,0 +1,159 @@
+.reveal-punchline {
+  animation: revealSlide 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.punchline-container {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.3) 0%,
+    rgba(255, 140, 0, 0.25) 35%,
+    rgba(255, 69, 0, 0.2) 100%
+  );
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  border-radius: 2rem;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(255, 215, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 0 50px rgba(255, 140, 0, 0.3);
+  overflow: hidden;
+}
+
+.punchline-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.punchline-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.punchline-text {
+  color: #fef3c7;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+.emoji-left,
+.emoji-right {
+  font-size: 2.5rem;
+  animation: bounce 1.5s ease-in-out infinite alternate;
+}
+
+.emoji-right {
+  animation-delay: 0.3s;
+}
+
+.sparkle-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ffd700;
+  border-radius: 50%;
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+.sparkle:nth-child(1) {
+  top: 20%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.sparkle:nth-child(2) {
+  top: 70%;
+  left: 80%;
+  animation-delay: 0.5s;
+}
+
+.sparkle:nth-child(3) {
+  top: 30%;
+  right: 20%;
+  animation-delay: 1s;
+}
+
+.sparkle:nth-child(4) {
+  bottom: 25%;
+  left: 70%;
+  animation-delay: 1.2s;
+}
+
+@keyframes revealSlide {
+  0% {
+    transform: translateY(30px) scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes textGlow {
+  0% {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.6);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
