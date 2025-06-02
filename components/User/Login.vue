@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user";
+import type { User } from "~/types/user";
 const userId = ref("");
 
-const userIdSet = ref(false);
-const userInfo = ref({
+const userIdSet = ref<Boolean>(false);
+const userInfo = ref<User>({
   name: "",
   favoriteJokes: [],
   totalJokesViewed: 0,
-  joinedDate: null,
 });
 
 const userStore = useUserStore();
@@ -17,7 +17,6 @@ const handleUserIdSubmit = () => {
       name: userId.value.trim(),
       favoriteJokes: [],
       totalJokesViewed: 0,
-      joinedDate: new Date().toISOString(),
     };
 
     userInfo.value = newUserInfo;
@@ -35,7 +34,7 @@ const handleUserIdSubmit = () => {
   >
     <div class="text-center mb-8">
       <div
-        class="w-20 h-20 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+        class="w-20 h-20 bg-gradient-to-r from-red-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
       >
         <span class="text-3xl">😂</span>
       </div>

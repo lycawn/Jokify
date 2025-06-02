@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useJokeStore } from "~/store/jokes";
 import { useUserStore } from "~/store/user";
+import type { Jokes } from "~/types/jokes";
+import type { User } from "~/types/user";
 
 const loading = ref(false);
 const isRevealed = ref(false);
 const userStore = useUserStore();
 const jokeStore = useJokeStore();
-const currentJoke = ref(jokeStore.randomJoke);
-const userInfo = ref(userStore.user);
+const currentJoke = ref<Jokes>(jokeStore.randomJoke);
+const userInfo = ref<User>(userStore.user);
 const router = useRouter();
 
 const getRandomJoke = async () => {

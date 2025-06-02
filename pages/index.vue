@@ -2,16 +2,15 @@
 import { ref, computed, onMounted } from "vue";
 import { useJokeStore } from "~/store/jokes";
 import { useUserStore } from "~/store/user";
+import type { User } from "~/types/user";
 
 const userStore = useUserStore();
-const userId = ref("");
 
-const userIdSet = ref(false);
-const userInfo = ref({
+const userIdSet = ref<Boolean>(false);
+const userInfo = ref<User>({
   name: "",
   favoriteJokes: [],
   totalJokesViewed: 0,
-  joinedDate: null,
 });
 
 onMounted(() => {
