@@ -1,75 +1,31 @@
-# Nuxt Minimal Starter
+# Install dependencies
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
-
-```bash
-# npm
 npm install
 
-# pnpm
-pnpm install
+# Start development server
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
 npm run dev
 
-# pnpm
-pnpm dev
+# Project Architecture
 
-# yarn
-yarn dev
+/services – Contains API call logic, separated for reusability and cleaner components.
 
-# bun
-bun run dev
-```
+/store – Pinia-based state management for handling app state across components.
 
-## Production
+/types – TypeScript interfaces and types used throughout the application for type safety.
 
-Build the application for production:
+/pages – Nuxt file-based routing system. Example: index.vue maps to /.
 
-```bash
-# npm
-npm run build
+/components – UI components, broken down into smaller reusable parts for maintainability.
 
-# pnpm
-pnpm build
+/composables – Reusable logic and axios instance. While .env could be used, API calls are client-side and kept simple here.
 
-# yarn
-yarn build
+# How It Works
 
-# bun
-bun run build
-```
+The user is greeted with a login interface, where they are prompted to enter a name.
 
-Locally preview production build:
+This name is stored in localStorage under a userInfo key.
 
-```bash
-# npm
-npm run preview
+After storing it locally, the user ID is synced to the Pinia store to manage it globally across the app.
 
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Once logged in, users can interact with the app. for example, joining Jokify, browsing random jokes , storing favourite jokes & more statistics.
