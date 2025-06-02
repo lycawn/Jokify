@@ -2,10 +2,14 @@
 import { useUserStore } from "~/store/user";
 
 const userStore = useUserStore();
+const router = useRouter();
 
 const resetProfile = () => {
   localStorage.removeItem("userInfo");
   window.location.reload();
+};
+const headerRedirect = () => {
+  router.push("/");
 };
 </script>
 
@@ -17,7 +21,10 @@ const resetProfile = () => {
       <div
         class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
-        <div class="flex items-center gap-3">
+        <div
+          class="flex items-center gap-3 cursor-pointer"
+          @click="headerRedirect"
+        >
           <div
             class="w-10 h-10 bg-gradient-to-r from-red-400 to-red-500 rounded-full flex items-center justify-center"
           >
