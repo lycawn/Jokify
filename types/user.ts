@@ -1,8 +1,9 @@
 import type { Jokes } from "./jokes";
 
 type User = {
-  username: string;
-  favouriteJokes: Array<Jokes>;
+  name: string;
+  favoriteJokes: Array<Jokes>;
+  totalJokesViewed: number;
 };
 
 export type { User };
