@@ -61,7 +61,6 @@ const toggleFavoriteWithRating = (rating = null) => {
     const favoriteJoke = {
       ...currentJoke.value,
       rating: rating || null,
-      dateAdded: new Date().toISOString(),
     };
     userInfo.value.favoriteJokes = [...favorites, favoriteJoke];
   }
