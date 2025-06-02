@@ -143,8 +143,8 @@ const getCurrentRating = () => {
             <button
               v-if="
                 currentJoke &&
-                (currentJoke.setup || currentJoke.joke) &&
-                (currentJoke.punchline || currentJoke.delivery) &&
+                currentJoke.setup &&
+                currentJoke.punchline &&
                 !isRevealed
               "
               @click="revealJoke"
@@ -183,6 +183,7 @@ const getCurrentRating = () => {
               <div class="flex gap-2">
                 <button
                   v-for="rating in [1, 2, 3, 4, 5]"
+                  v-if="currentJoke.setup"
                   :key="rating"
                   @click="toggleFavoriteWithRating(rating)"
                   class="group p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110"
@@ -214,21 +215,19 @@ const getCurrentRating = () => {
               <div
                 class="text-white text-2xl font-semibold leading-relaxed p-6 bg-gradient-to-r from-white/5 to-white/10 rounded-2xl border border-white/10"
               >
-                "{{ currentJoke.setup || currentJoke.joke }}"
+                "{{ currentJoke.setup }}"
               </div>
             </div>
 
             <div
-              v-if="
-                isRevealed && (currentJoke.punchline || currentJoke.delivery)
-              "
+              v-if="isRevealed && currentJoke.punchline"
               class="reveal-punchline"
             >
               <div class="punchline-container">
                 <div class="punchline-content">
                   <span class="emoji-left">💫</span>
                   <span class="punchline-text">{{
-                    currentJoke.punchline || currentJoke.delivery
+                    currentJoke.punchline
                   }}</span>
                   <span class="emoji-right">😄</span>
                 </div>
