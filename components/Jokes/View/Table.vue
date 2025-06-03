@@ -183,7 +183,7 @@ const getCurrentRating = () => {
 
           <div
             v-if="currentJoke"
-            :class="$mobile() ? 'p-5' : 'p-8'"
+            :class="$mobile ? 'p-5' : 'p-8'"
             class="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500"
           >
             <div
