@@ -44,7 +44,7 @@ const searchFavourites = computed(() => {
           .toLowerCase()
           .includes(searchQuery.value.toLowerCase());
       })
-    : userInfo.value.favoriteJokes;
+    : userInfo.value.favoriteJokes.sort((a, b) => b.rating - a.rating);
 });
 
 const removeFavourites = (jokeId) => {
