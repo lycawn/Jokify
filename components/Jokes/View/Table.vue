@@ -54,7 +54,7 @@ const searchFavourites = computed(() => {
     : userInfo.value.favoriteJokes.sort((a, b) => a.rating - b.rating);
 });
 
-const removeFavourites = (jokeId) => {
+const removeFavourites = (jokeId: number) => {
   const favorites = userInfo.value.favoriteJokes;
   userInfo.value.favoriteJokes = favorites.filter((joke) => joke.id !== jokeId);
   localStorage.setItem("userInfo", JSON.stringify(userInfo.value));
@@ -63,10 +63,10 @@ const toggleFavoriteWithRating = (rating = null) => {
   if (!currentJoke.value) return;
 
   const jokeId = currentJoke.value.id;
-  const favorites = userInfo.value.favoriteJokes;
+  const favorites = <any>userInfo.value.favoriteJokes;
 
   const existingFavoriteIndex = favorites.findIndex(
-    (joke) => joke.id === jokeId
+    (joke: Jokes) => joke.id === jokeId
   );
 
   if (existingFavoriteIndex !== -1) {
@@ -77,7 +77,7 @@ const toggleFavoriteWithRating = (rating = null) => {
       };
     } else {
       userInfo.value.favoriteJokes = favorites.filter(
-        (joke) => joke.id !== jokeId
+        (joke: Jokes) => joke.id !== jokeId
       );
     }
   } else {
@@ -256,10 +256,7 @@ const getCurrentRating = () => {
               </div>
             </div>
 
-            <div
-              v-else-if="currentJoke.punchline || currentJoke.delivery"
-              class="text-center py-12"
-            >
+            <div v-else-if="currentJoke.punchline" class="text-center py-12">
               <div class="text-6xl mb-4 opacity-30">🤔</div>
               <p class="text-white/50 text-lg italic">
                 Click "Reveal Punchline" for the big laugh...
@@ -347,7 +344,7 @@ const getCurrentRating = () => {
                 class="bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-white text-center py-3 px-3 rounded-xl text-sm font-semibold border border-white/20 hover:scale-105 transition-transform cursor-pointer"
               >
                 <NuxtLink :to="`/joke/${joke.id}`">
-                  {{ truncText(joke.setup || joke.joke) }}</NuxtLink
+                  {{ truncText(joke.setup) }}</NuxtLink
                 >
                 <br />
 

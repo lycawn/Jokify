@@ -30,7 +30,7 @@ export const useJokeStore = defineStore("useJokeStore", {
         this.jokeType = res;
       });
     },
-    async setFavouriteJoke(id: string) {
+    async setFavouriteJoke(id: number) {
       await getJokeByIdFn(id).then((res) => {
         this.favouriteJoke = res;
       });

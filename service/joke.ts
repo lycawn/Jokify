@@ -17,7 +17,7 @@ const getJokeTypesFn = async () => {
     return res.data;
   });
 };
-const getJokeByIdFn = async (id: string) => {
+const getJokeByIdFn = async (id: number) => {
   let baseUrl = `jokes/${id}`;
   return await $axios.get(baseUrl).then((res) => {
     return res.data;
