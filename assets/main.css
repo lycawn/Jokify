@@ -157,3 +157,12 @@
     transform: scale(1);
   }
 }
+
+.click-animation {
+  transition: 0.2s ease-in-out;
+}
+
+.click-animation:hover {
+  box-shadow: 0 0 12px rgba(237, 190, 20, 0.858);
+  transform: translateX(5px);
+}

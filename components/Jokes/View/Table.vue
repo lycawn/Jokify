@@ -12,6 +12,11 @@ const jokeStore = useJokeStore();
 const currentJoke = ref<Jokes>(jokeStore.randomJoke);
 const userInfo = ref<User>(userStore.user);
 const searchQuery = ref("");
+const sortBy = ref(true);
+
+const setSortBy = (flag: boolean) => {
+  return (sortBy.value = flag);
+};
 
 const getRandomJoke = async () => {
   loading.value = true;
@@ -44,7 +49,9 @@ const searchFavourites = computed(() => {
           .toLowerCase()
           .includes(searchQuery.value.toLowerCase());
       })
-    : userInfo.value.favoriteJokes.sort((a, b) => b.rating - a.rating);
+    : sortBy.value
+    ? userInfo.value.favoriteJokes.sort((a, b) => b.rating - a.rating)
+    : userInfo.value.favoriteJokes.sort((a, b) => a.rating - b.rating);
 });
 
 const removeFavourites = (jokeId) => {
@@ -325,6 +332,13 @@ const getCurrentRating = () => {
               placeholder="Search...🔍"
               class="rounded-sm bg-pink-50 text-black px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-300 mb-2"
             />
+            <button
+              @click="setSortBy(!sortBy)"
+              class="px-3 py-3 mb-2 bg-white/20 border border-white/30 rounded-2xl text-white placeholder-white/60 focus:ring-4 focus:ring-purple-500/50 focus:border-purple-400 outline-none transition-all backdrop-blur-sm click-animation"
+              title="Toggle sort order"
+            >
+              Sort by ⭐
+            </button>
 
             <div class="grid grid-cols-2 gap-3 mb-4">
               <div
