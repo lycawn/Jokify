@@ -9,7 +9,9 @@ const loading = ref(false);
 const isRevealed = ref(false);
 const userStore = useUserStore();
 const jokeStore = useJokeStore();
-const currentJoke = ref<Jokes>(jokeStore.randomJoke);
+const currentJoke = ref<Jokes>(
+  jokeStore.randomJoke.setup ? jokeStore.randomJoke : null
+);
 const userInfo = ref<User>(userStore.user);
 const searchQuery = ref("");
 const sortBy = ref(true);
