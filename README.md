@@ -39,3 +39,10 @@ $axios – Wrapper for Axios used to make API calls across the app.
 User Info Storage – User data is saved in both localStorage and the Pinia store to allow for persistent access and global state management.
 
 Scalability – If the app grows in complexity, more getters can be added to the Pinia store for computed state and cleaner data access patterns.
+
+🔗 Links
+GitHub Repository: https://github.com/lycawn/Jokify
+
+Jokes API: https://github.com/15Dkatz/official_joke_api
+
+Live Demo: https://jokified.netlify.app
