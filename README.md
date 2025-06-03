@@ -1,3 +1,7 @@
+# Requirements
+
+Node v10 or more
+
 # Install dependencies
 
 npm install
@@ -5,6 +9,10 @@ npm install
 # Start development server
 
 npm run dev
+
+# Start Tests
+
+npm run tests (vitest)
 
 # Project Architecture
 

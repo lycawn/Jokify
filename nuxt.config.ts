@@ -4,4 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
   css: ["@/assets/main.css"],
+  runtimeConfig: {
+    AXIOS: "https://official-joke-api.appspot.com",
+  },
 });
