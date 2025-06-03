@@ -26,7 +26,7 @@ const headerRedirect = () => {
           @click="headerRedirect"
         >
           <div
-            class="w-10 h-10 bg-gradient-to-l from-black-500 to-white rounded-full flex items-center justify-center"
+            class="w-10 h-10 bg-gradient-to-l to-white rounded-full flex items-center justify-center"
           >
             <span class="text-xl">🎭</span>
           </div>

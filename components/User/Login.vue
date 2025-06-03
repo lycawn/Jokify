@@ -34,7 +34,7 @@ const handleUserIdSubmit = () => {
   >
     <div class="text-center mb-8">
       <div
-        class="w-20 h-20 bg-gradient-to-l from-black-500 to-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+        class="w-20 h-20 bg-gradient-to-l to-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
       >
         <span class="text-3xl">🎭</span>
       </div>

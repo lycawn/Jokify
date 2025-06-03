@@ -11,6 +11,7 @@ const userStore = useUserStore();
 const jokeStore = useJokeStore();
 const currentJoke = ref<Jokes>(jokeStore.randomJoke);
 const userInfo = ref<User>(userStore.user);
+const searchQuery = ref("");
 
 const getRandomJoke = async () => {
   loading.value = true;
@@ -36,6 +37,21 @@ const getRandomJoke = async () => {
   }
 };
 
+const searchFavourites = computed(() => {
+  return searchQuery.value
+    ? userInfo.value.favoriteJokes.filter((item) => {
+        return item.setup
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase());
+      })
+    : userInfo.value.favoriteJokes;
+});
+
+const removeFavourites = (jokeId) => {
+  const favorites = userInfo.value.favoriteJokes;
+  userInfo.value.favoriteJokes = favorites.filter((joke) => joke.id !== jokeId);
+  localStorage.setItem("userInfo", JSON.stringify(userInfo.value));
+};
 const toggleFavoriteWithRating = (rating = null) => {
   if (!currentJoke.value) return;
 
@@ -171,11 +187,6 @@ const getCurrentRating = () => {
                 >
                   {{ currentJoke.type?.toUpperCase() || "GENERAL" }}
                 </span>
-                <span
-                  class="bg-white/20 text-white/90 text-sm font-medium px-4 py-2 rounded-full backdrop-blur-sm"
-                >
-                  #{{ currentJoke.id }}
-                </span>
               </div>
 
               <div class="flex gap-2">
@@ -305,16 +316,33 @@ const getCurrentRating = () => {
                 {{ userStore.user.favoriteJokes.length }}
               </span>
             </h3>
+            <br />
+
+            <input
+              v-model="searchQuery"
+              id="search"
+              type="text"
+              placeholder="Search...🔍"
+              class="rounded-sm bg-pink-50 text-black px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-300 mb-2"
+            />
+
             <div class="grid grid-cols-2 gap-3 mb-4">
-              <NuxtLink
-                v-for="joke in userStore.user.favoriteJokes.slice(0, 8)"
+              <div
+                v-for="joke in searchFavourites.slice(0, 8)"
                 :key="joke.id"
-                :to="`/joke/${joke.id}`"
                 class="bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-white text-center py-3 px-3 rounded-xl text-sm font-semibold border border-white/20 hover:scale-105 transition-transform cursor-pointer"
               >
-                {{ truncText(joke.setup || joke.joke) }}
+                <NuxtLink :to="`/joke/${joke.id}`">
+                  {{ truncText(joke.setup || joke.joke) }}</NuxtLink
+                >
+                <br />
+
                 <span class="text-xs" v-for="rating in joke.rating">⭐</span>
-              </NuxtLink>
+                <br />
+                <span class="text-lg" @click="removeFavourites(joke.id)"
+                  >🗑️
+                </span>
+              </div>
             </div>
             <p
               v-if="userStore.user.favoriteJokes?.length > 8"
