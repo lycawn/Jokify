@@ -29,3 +29,13 @@ This name is stored in localStorage under a userInfo key.
 After storing it locally, the user ID is synced to the Pinia store to manage it globally across the app.
 
 Once logged in, users can interact with the app. for example, joining Jokify, browsing random jokes , storing favourite jokes & more statistics.
+
+# Dev Notes
+
+$mobile – Utility that detects if the user is on a mobile or desktop device based on screen width.
+
+$axios – Wrapper for Axios used to make API calls across the app.
+
+User Info Storage – User data is saved in both localStorage and the Pinia store to allow for persistent access and global state management.
+
+Scalability – If the app grows in complexity, more getters can be added to the Pinia store for computed state and cleaner data access patterns.

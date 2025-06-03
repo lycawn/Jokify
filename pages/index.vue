@@ -44,6 +44,7 @@ onMounted(() => {
     </div>
 
     <div v-else class="min-h-screen">
+      <header-table></header-table>
       <JokesTable></JokesTable>
     </div>
   </div>

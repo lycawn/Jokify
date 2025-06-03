@@ -11,7 +11,6 @@ onMounted(async () => {
 
 <template>
   <div class="space-y-6">
-    <jokes-header-table />
     <jokes-view-table />
   </div>
 </template>

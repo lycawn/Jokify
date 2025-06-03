@@ -183,7 +183,8 @@ const getCurrentRating = () => {
 
           <div
             v-if="currentJoke"
-            class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500"
+            :class="$mobile() ? 'p-5' : 'p-8'"
+            class="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500"
           >
             <div
               class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 mb-8"
@@ -205,12 +206,12 @@ const getCurrentRating = () => {
                   class="group p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-110"
                   :title="`Rate ${rating} stars`"
                 >
-                  <span v-if="isJokeFavorited" class="text-2xl animate-pulse">
+                  <span v-if="isJokeFavorited" class="text-md animate-pulse">
                     {{ rating <= getCurrentRating() ? "❤️" : "☆" }}
                   </span>
                   <span
                     v-else
-                    class="text-2xl opacity-60 group-hover:opacity-100 transition-opacity"
+                    class="text-sm opacity-60 group-hover:opacity-100 transition-opacity"
                   >
                     ❤️
                   </span>
@@ -222,7 +223,7 @@ const getCurrentRating = () => {
                   class="group p-3 rounded-full bg-red-500/20 hover:bg-red-500/30 backdrop-blur-sm transition-all duration-300 hover:scale-110"
                   title="Remove from favorites"
                 >
-                  <span class="text-2xl">🗑️</span>
+                  <span class="text-xs">🗑️</span>
                 </button>
               </div>
             </div>

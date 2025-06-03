@@ -33,7 +33,7 @@ onMounted(async () => {
   <div
     class="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800"
   >
-    <jokes-header-table></jokes-header-table>
+    <header-table />
     <main
       class="container mx-auto px-4 py-12 min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900"
     >

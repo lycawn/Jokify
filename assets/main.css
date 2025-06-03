@@ -53,6 +53,12 @@
   animation: textGlow 2s ease-in-out infinite alternate;
 }
 
+@media (max-width: 768px) {
+  .punchline-text {
+    font-size: 1.2rem;
+  }
+}
+
 .emoji-left,
 .emoji-right {
   font-size: 2.5rem;
