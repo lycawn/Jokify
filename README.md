@@ -1,6 +1,6 @@
 # Requirements
 
-Node v10 or more
+Node.js v10 or higher
 
 # Install dependencies
 
