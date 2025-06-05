@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { truncText } from "~/composables/utils/usables";
+import { $localUser, truncText } from "~/composables/utils/usables";
 import { useJokeStore } from "~/store/jokes";
 import { useUserStore } from "~/store/user";
 import type { Jokes } from "~/types/jokes";
@@ -59,7 +59,7 @@ const searchFavourites = computed(() => {
 const removeFavourites = (jokeId: number) => {
   const favorites = userInfo.value.favoriteJokes;
   userInfo.value.favoriteJokes = favorites.filter((joke) => joke.id !== jokeId);
-  localStorage.setItem("userInfo", JSON.stringify(userInfo.value));
+  $localUser(userInfo.value);
 };
 const toggleFavoriteWithRating = (rating = null) => {
   if (!currentJoke.value) return;
@@ -90,7 +90,7 @@ const toggleFavoriteWithRating = (rating = null) => {
     userInfo.value.favoriteJokes = [...favorites, favoriteJoke];
   }
 
-  localStorage.setItem("userInfo", JSON.stringify(userInfo.value));
+  $localUser(userInfo.value);
   userStore.setUserInfo(userInfo.value);
 };
 
