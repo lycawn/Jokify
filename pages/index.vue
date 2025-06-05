@@ -15,20 +15,19 @@ const userInfo = ref<User>({
 
 onMounted(() => {
   const savedUserInfo = localStorage.getItem("userInfo");
-  setTimeout(() => {
-    if (savedUserInfo) {
-      try {
-        const parsedUserInfo = JSON.parse(savedUserInfo);
-        userInfo.value = parsedUserInfo;
-        userStore.setUserInfo(parsedUserInfo);
-        userIdSet.value = true;
-        userStore.isLoggedIn = true;
-      } catch (error) {
-        console.error("Error parsing user info:", error);
-        localStorage.removeItem("userInfo");
-      }
+
+  if (savedUserInfo) {
+    try {
+      const parsedUserInfo = JSON.parse(savedUserInfo);
+      userInfo.value = parsedUserInfo;
+      userStore.setUserInfo(parsedUserInfo);
+      userIdSet.value = true;
+      userStore.isLoggedIn = true;
+    } catch (error) {
+      console.error("Error parsing user info:", error);
+      localStorage.removeItem("userInfo");
     }
-  }, 500);
+  }
 });
 </script>
 

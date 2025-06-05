@@ -6,4 +6,8 @@ const $mobile = () => {
   return screen.width < 780 ? true : false;
 };
 
-export { $mobile };
+const $localUser = (user: object) => {
+  return localStorage.setItem("userInfo", JSON.stringify(user));
+};
+
+export { $mobile, $localUser };
